@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Test from './components/Test.jsx';
+import CharacterCreator from './components/CharacterCreator.jsx';
 
 ReactDOM.render(
-  <Test />, 
+  <CharacterCreator />, 
   document.getElementById('dnd-tools'));
 
