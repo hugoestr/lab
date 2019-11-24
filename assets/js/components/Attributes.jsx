@@ -3,7 +3,8 @@ import React from 'react';
 class Attributes extends React.Component {
   render() {
     return(
-        <div className="attributes">
+        <div className="character-attributes">
+          <h1>Character</h1>
           <Scores character={this.props.character} />
           <AttributesTable attributes={this.props.character.attributes}  />
         </div>
@@ -17,6 +18,7 @@ function Scores(props) {
       <thead>
         <tr>
           <th>Name</th>
+          <th>Alignment</th>
           <th>Class</th>
           <th>Race</th>
           <th>Level</th>
@@ -29,7 +31,7 @@ function Scores(props) {
       <tbody>
         <tr>
           <td>{props.character.name}</td>
-          <td>{props.character.ac}</td>
+          <td>{props.character.alignment}</td>
           <td>{props.character.class}</td>
           <td>{props.character.race}</td>
           <td>{props.character.level}</td>
