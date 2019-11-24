@@ -17,6 +17,14 @@ class Attributes {
       'charisma'
     ];
   }
+
+  sortedByScore() {
+    return this.
+           names.
+           map(key =>  [key, this[key]]).
+           sort((a, b) =>  b[1] - a[1] ); 
+  }
+
 }
 
 export default Attributes;

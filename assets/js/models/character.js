@@ -29,10 +29,36 @@ class Character {
     this.attributes.constitution = this.dice.roll(3, 6);
     this.attributes.dexterity = this.dice.roll(3, 6);
     this.attributes.charisma = this.dice.roll(3, 6);
+
+    this.setClass();
   }
 
   goldRoll() {
     this.gold = this.dice.roll(3, 6) * 10;
+  }
+
+  setClass(){
+    const classDefining = ["intelligence", "wisdom", "strength"];
+    const topScores = this.
+                     attributes.
+                     sortedByScore().
+                     filter(item => classDefining.includes(item[0]));
+                     
+    console.log("Top scores" + JSON.stringify(topScores));
+    switch(topScores[0]){
+      case 'strength':
+        this.attributes.class = 'fighter';
+        break;
+      case 'intelligence':
+        this.attributes.class = 'magic-user';
+        break;
+
+      case 'wisdom':
+        this.attributes.class = 'cleric';
+        break;
+      default:
+        break;
+    }
   }
 }
 
