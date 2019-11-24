@@ -2,10 +2,16 @@ import React from 'react';
 import Attributes from './Attributes.jsx';
 import EquipmentPicker from './EquipmentPicker.jsx';
 
+import Character from '../models/Character.js';
+
+//import Button from '@material-ui/core/Button';
+
 class CharacterCreator extends React.Component{
 
   constructor(props) {
     super(props);
+
+    this.state = {character: new Character()}
 
     this.handleCreateCharacter = this.handleCreateCharacter.bind(this);
   }
@@ -13,9 +19,13 @@ class CharacterCreator extends React.Component{
   handleCreateCharacter(e)  {
     e.preventDefault();
 
+    var character = this.state.character;
+
+    character.createRoll();
+
+    this.setState({character: character});
     console.log("Clicky") 
   }
-
 
   render() {
     return(
@@ -26,7 +36,7 @@ class CharacterCreator extends React.Component{
           <button onClick={this.handleCreateCharacter} >Create Character</button>
 
         </div>
-        <Attributes />
+        <Attributes character={this.state.character}  />
         <div className="class-picker">
           <p>Class radio button</p>
         </div>
