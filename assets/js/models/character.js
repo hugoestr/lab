@@ -30,6 +30,10 @@ class Character {
     this.attributes.dexterity = this.dice.roll(3, 6);
     this.attributes.charisma = this.dice.roll(3, 6);
   }
+
+  goldRoll() {
+    this.gold = this.dice.roll(3, 6) * 10;
+  }
 }
 
 export default Character;

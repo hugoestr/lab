@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CharacterCreator from './components/CharacterCreator.jsx';
+import Main from './components/Main.jsx';
 //import 'typeface-roboto';
 
 ReactDOM.render(
-  <CharacterCreator />, 
+  <Main />, 
   document.getElementById('dnd-tools'));
 

@@ -1,15 +1,14 @@
+
 import React from 'react';
 
-class Attributes extends React.Component {
-  render() {
+function Attributes(props) {
     return(
         <div className="character-attributes">
           <h1>Character</h1>
-          <Scores character={this.props.character} />
-          <AttributesTable attributes={this.props.character.attributes}  />
+          <Scores character={props.character} />
+          <AttributesTable attributes={props.character.attributes}  />
         </div>
     );
-  }
 }
 
 function Scores(props) {
