@@ -4,6 +4,7 @@ import Attributes from './attributes.js';
 class Character {
   constructor(){
     this.created = false;
+    this.tiedTopScore = false;
 
     this.name = "";
     this.class = "";
@@ -18,7 +19,8 @@ class Character {
     this.gold = 0;
 
     this.attributes = new Attributes();
-    
+    this.topAttributes = [];;
+
     this.dice = new Dice();
   }
 
@@ -38,24 +40,26 @@ class Character {
   }
 
   setClass(){
-    const classDefining = ["intelligence", "wisdom", "strength"];
-    const topScores = this.
-                     attributes.
-                     sortedByScore().
-                     filter(item => classDefining.includes(item[0]));
-                     
-    console.log("Top scores" + JSON.stringify(topScores));
-    switch(topScores[0]){
+    this.topAttributes = this.attributes.topScores;
+
+    if (this.topAttributes.length > 1) {
+      this.tiedTopScore = true;
+    }
+
+    switch(this.topAttributes[0].key){
       case 'strength':
         this.attributes.class = 'fighter';
         break;
       case 'intelligence':
         this.attributes.class = 'magic-user';
         break;
-
       case 'wisdom':
         this.attributes.class = 'cleric';
         break;
+      case 'dexterity':
+        this.attributes.class = 'thief';
+        break;
+
       default:
         break;
     }

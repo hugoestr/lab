@@ -1,3 +1,9 @@
+class KeyValue {
+  constructor(key, value) {
+    this.key = key;
+    this.value = value;
+  }
+}
 
 class Attributes {
   constructor() {
@@ -18,13 +24,28 @@ class Attributes {
     ];
   }
 
-  sortedByScore() {
+  get sortedByScore() {
     return this.
            names.
-           map(key =>  [key, this[key]]).
-           sort((a, b) =>  b[1] - a[1] ); 
+           map(key =>  new KeyValue(key, this[key])).
+           sort((a, b) =>  b.value - a.value); 
   }
 
+  get keyAttributes() {
+    const classDefining = ["intelligence", "wisdom", "strength", "dexterity"];
+
+    return this.
+            sortedByScore.
+            filter(item => classDefining.includes(item.key));
+  }
+
+  get topScores() {
+    const score = this.keyAttributes[0].value;
+    
+    return this.
+            keyAttributes.
+            filter(item => item.value == score);
+  }
 }
 
 export default Attributes;
