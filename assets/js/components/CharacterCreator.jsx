@@ -9,17 +9,19 @@ class CharacterCreator extends React.Component{
     super(props);
     this.creationStates = {
       'roll' : 'alignment',
+      'class' : 'alignment',
       'alignment' : 'money',
       'money' : 'race',
       'race' : 'name',
       'name' : 'done',
     };
 
-    this.state = { creationState: 'roll' }
+    this.creationState =  'roll';
 
     this.enableState('roll');
 
     this.handleAttributeRoll = this.handleAttributeRoll.bind(this);
+    this.handleClass = this.handleClass.bind(this);
     this.handleAlignment = this.handleAlignment.bind(this);
     this.handleGoldRoll = this.handleGoldRoll.bind(this);
     this.handleRace = this.handleRace.bind(this);
@@ -30,13 +32,19 @@ class CharacterCreator extends React.Component{
   }
 
   enableState(activeState) {
-    
+    this.creationState = activeState;
   }
 
   handleAccept(e) {
     e.preventDefault();
+    var nextState = "";
 
-    const nextState = this.creationStates[this.state.creationState];
+    if (this.creationState == "roll" &&
+        this.state.character.attributes.tiedTopScore) {
+      this.creationState = "class";
+    } else {
+      nextState = this.creationStates[this.state.creationState];
+    }
 
     this.enableStep(nextState);
 
@@ -53,6 +61,16 @@ class CharacterCreator extends React.Component{
     this.props.onCharacterUpdate(character);
   }
  
+  handleClass(e)  {
+    e.preventDefault();
+
+    var character = this.props.character;
+    character.class = e.target.value;
+
+    this.props.onCharacterUpdate(character);
+  }
+
+
   handleAlignment(e)  {
     e.preventDefault();
 
@@ -113,6 +131,11 @@ class CharacterCreator extends React.Component{
             <button onClick={this.handleAccept} >Accept</button>
           </div>
 
+        <div id="class">
+            <h2>1.5 Select class!</h2>
+            <button onClick={this.handleAccept} >Accept</button>
+          </div>
+
           <div id="alignment">
           <h2>2. Pick Alignment</h2>
             <select id="select-alignment" 
@@ -128,7 +151,6 @@ class CharacterCreator extends React.Component{
           </div>
 
           <div id="money">
-            <input type="text" name="name" ></input>
             <h2>3. Roll for wealth</h2>
             <button onClick={this.handleGoldRoll} >Roll for Gold</button>
             <button onClick={this.handleAccept} >Accept</button>
