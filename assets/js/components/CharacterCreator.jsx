@@ -152,12 +152,6 @@ class CharacterCreator extends React.Component{
               <button onClick={this.handleAccept} >Accept</button>
           </div>
 
-          <div id="money">
-            <h2>3. Roll for wealth</h2>
-            <button onClick={this.handleGoldRoll} >Roll for Gold</button>
-            <button onClick={this.handleAccept} >Accept</button>
-          </div>
-
           <div id="race">
             <SelectRace 
               races={this.props.character.availableRaces}
@@ -166,8 +160,15 @@ class CharacterCreator extends React.Component{
            <button onClick={this.handleAccept} >Accept</button>
           </div>
 
+          <div id="money">
+            <h2>Roll for wealth</h2>
+            <button onClick={this.handleGoldRoll} >Roll for Gold</button>
+            <button onClick={this.handleAccept} >Accept</button>
+          </div>
+
+
           <div id="name">
-            <h2>5 Name them!</h2>
+            <h2>Name them!</h2>
             <input type="text" name="name" 
                    placeholder='name'
                    onChange={this.handleName}></input>

@@ -13,7 +13,7 @@ class Character {
     this.level = 1;
     this.hp = 0;
     this.xp = 0;
-    this.ac = 0;
+    this.ac = 10;
 
     this.gold = 0;
 

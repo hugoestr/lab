@@ -30,7 +30,7 @@ function Scores(props) {
       <tbody>
         <tr>
           <td>{props.character.name}</td>
-          <td>{props.character.alignment}</td>
+          <td>{props.character.attributes.alignment}</td>
           <td>{props.character.class}</td>
           <td>{props.character.race}</td>
           <td>{props.character.level}</td>
