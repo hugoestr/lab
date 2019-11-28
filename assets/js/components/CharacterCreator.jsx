@@ -11,7 +11,8 @@ class CharacterCreator extends React.Component{
     this.creationStates = {
       'alignment' : 'roll',
       'roll' : 'class',
-      'class' : 'race',
+      'class' : 'health',
+      'health' : 'race',
       'race' : 'money',
       'money' : 'name',
       'name' : 'done',
@@ -23,6 +24,7 @@ class CharacterCreator extends React.Component{
     this.handleClass = this.handleClass.bind(this);
     this.handleAlignment = this.handleAlignment.bind(this);
     this.handleGoldRoll = this.handleGoldRoll.bind(this);
+    this.handleHealthRoll = this.handleHealthRoll.bind(this);
     this.handleRace = this.handleRace.bind(this);
     this.handleName = this.handleName.bind(this);
     
@@ -73,6 +75,15 @@ class CharacterCreator extends React.Component{
 
     var character = this.props.character;
     character.goldRoll();
+
+    this.props.onCharacterUpdate(character);
+  }
+
+  handleHealthRoll(e)  {
+    e.preventDefault();
+
+    var character = this.props.character;
+    character.healthRoll();
 
     this.props.onCharacterUpdate(character);
   }
@@ -138,6 +149,14 @@ class CharacterCreator extends React.Component{
               <button onClick={this.handleAccept} >Accept</button>
           </div>;
         break;
+      case 'health':
+        return <div id="health">
+            <h2>Roll for health</h2>
+            <button onClick={this.handleHealthRoll} >Roll for Health Points</button>
+            <button onClick={this.handleAccept} >Accept</button>
+          </div>;
+
+        break;
       case 'race':
         return <div id="race">
             <SelectRace 
@@ -148,8 +167,7 @@ class CharacterCreator extends React.Component{
           </div>;
         break;
       case 'money':
-        return 
-        <div id="money">
+        return <div id="money">
             <h2>Roll for wealth</h2>
             <button onClick={this.handleGoldRoll} >Roll for Gold</button>
             <button onClick={this.handleAccept} >Accept</button>
@@ -170,8 +188,6 @@ class CharacterCreator extends React.Component{
             <h2>6. Save Character</h2>
             <button onClick={this.save} >Save</button>
           </div>;
-        break;
-      default:
         break;
     }
   }

@@ -37,6 +37,25 @@ class Character {
     this.gold = this.dice.roll(3, 6) * 10;
   }
 
+  healthRoll() {
+    var dice = 8;
+  
+    switch(this.class) {
+      case 'cleric':
+        dice = 6;
+        break;
+      case 'magic-user':
+      case 'thief':
+        dice = 4;
+        break;
+      default:
+        dice = 8;
+    }
+
+    this.hp = this.dice.roll(1, dice);
+  }
+
+
   get availableClasses() {
     return this.
            attributes.
@@ -69,7 +88,6 @@ class Character {
         characterClasses.push('hobbit');
     }
 
-    console.log("stop here");
     return characterClasses;
   }
 }

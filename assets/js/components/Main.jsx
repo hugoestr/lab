@@ -29,7 +29,6 @@ class Main extends React.Component {
 
     return(
       <div id='name'>
-        <Attributes character={this.state.character} />
 
         { hasCharacter ? (
           <CharacterManager 
@@ -39,6 +38,8 @@ class Main extends React.Component {
           <CharacterCreator character={this.state.character} 
             onCharacterUpdate={this.handleCharacterUpdate} />
         )}
+
+        <Attributes character={this.state.character} />
       </div>
     );
   }
