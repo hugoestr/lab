@@ -1,8 +1,17 @@
 import React from 'react';
 
 function createOptions(items){
+  const abilityClass = {
+    'strength': 'fighter', 
+    'intelligence': 'magic-user', 
+    'wisdom': 'cleric', 
+    'dexterity': 'thief' 
+  };
+
   return items.map(item => { 
-    return <option key={"select_class_" + item} value={item}>{item}</option>
+    let className = abilityClass[item];
+    return <option key={"select_class_" + className} 
+                   value={className}>{className}</option>;
   });
 }
 

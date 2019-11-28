@@ -74,7 +74,7 @@ class CharacterCreator extends React.Component{
     e.preventDefault();
 
     var character = this.props.character;
-    character.alignment = e.target.value;
+    character.attributes.alignment = e.target.value;
 
     this.props.onCharacterUpdate(character);
   }

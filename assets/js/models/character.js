@@ -9,7 +9,6 @@ class Character {
     this.name = "";
     this.class = "";
     this.race  = "";
-    this.alignment = "";
 
     this.level = 1;
     this.hp = 0;

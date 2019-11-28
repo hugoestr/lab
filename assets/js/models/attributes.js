@@ -1,12 +1,9 @@
-class KeyValue {
-  constructor(key, value) {
-    this.key = key;
-    this.value = value;
-  }
-}
+import KeyValue from "./keyValue.js";
 
 class Attributes {
   constructor() {
+    this.alignment = "";
+
     this.strength = 0;
     this.constitution = 0;
     this.intelligence = 0;
@@ -32,11 +29,17 @@ class Attributes {
   }
 
   get keyAttributes() {
-    const classDefining = [
+    var classDefining = [
       "intelligence", 
-      "wisdom", 
-      "strength", 
-      "dexterity"];
+      "strength"];
+
+    if (this.alignment != 'neutral') {
+      classDefining.push("wisdom");
+    }
+
+    if (this.alignment != 'law' ) {
+      classDefining.push("dexterity");
+    }
 
     return this.
             sortedByScore.
