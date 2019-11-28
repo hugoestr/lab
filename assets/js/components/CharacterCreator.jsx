@@ -1,5 +1,6 @@
 import React from 'react';
 import SelectClass from "./SelectClass.jsx";
+import SelectRace  from "./SelectRace.jsx";
 
 //import Button from '@material-ui/core/Button';
 
@@ -63,6 +64,7 @@ class CharacterCreator extends React.Component{
   handleClass(e)  {
     e.preventDefault();
 
+    console.log("It is handling class");
     var character = this.props.character;
     character.class = e.target.value;
 
@@ -157,18 +159,11 @@ class CharacterCreator extends React.Component{
           </div>
 
           <div id="race">
-            <h2>4. Pick race</h2>
-              <select id="select-race" 
-                      defaultValue={""}
-                      onChange={this.handleRace}>
-                <option value="">Select Race</option>
-                <option value="human" >Human</option>
-                <option value="elf" >Elf</option>
-                <option value="dwarf" >Dwarf</option>
-                <option value="hobbit" >Hobbit</option>
-              </select>
-
-            <button onClick={this.handleAccept} >Accept</button>
+            <SelectRace 
+              races={this.props.character.availableRaces}
+              onChange={this.handleRace}
+            />
+           <button onClick={this.handleAccept} >Accept</button>
           </div>
 
           <div id="name">

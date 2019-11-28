@@ -53,10 +53,6 @@ class Attributes {
             keyAttributes.
             filter(item => item.value == score);
   }
-
-  get acceptableClasses() {
-
-  }
 }
 
 export default Attributes;

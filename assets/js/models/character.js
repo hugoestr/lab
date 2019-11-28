@@ -43,6 +43,35 @@ class Character {
            topScores.
            map(item => item.key);
   }
+
+  get availableRaces() {
+    var characterClasses =[
+      'human' 
+    ];
+
+    if (this.class == 'magic-user'){
+      characterClasses.push('elf');
+    }
+
+    if (this.class == 'fighter') {
+      characterClasses.push('elf');
+      characterClasses.push('dwarf');
+    }
+
+    if (this.class == 'thief') {
+        characterClasses.push('elf');
+        characterClasses.push('dwarf');
+    }
+
+    if ((this.class == 'thief' ||
+         this.class == 'fighter') && 
+        this.alignment != 'chaotic'){
+        characterClasses.push('hobbit');
+    }
+
+    console.log("stop here");
+    return characterClasses;
+  }
 }
 
 export default Character;
