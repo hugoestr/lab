@@ -11,15 +11,13 @@ class CharacterCreator extends React.Component{
     this.creationStates = {
       'alignment' : 'roll',
       'roll' : 'class',
-      'class' : 'money',
-      'money' : 'race',
-      'race' : 'name',
+      'class' : 'race',
+      'race' : 'money',
+      'money' : 'name',
       'name' : 'done',
     };
 
-    this.creationState =  'roll';
-
-    this.enableState('alignment');
+    this.state = {creationState: 'alignment'};
 
     this.handleAttributeRoll = this.handleAttributeRoll.bind(this);
     this.handleClass = this.handleClass.bind(this);
@@ -28,28 +26,18 @@ class CharacterCreator extends React.Component{
     this.handleRace = this.handleRace.bind(this);
     this.handleName = this.handleName.bind(this);
     
-    this.enableState = this.enableState.bind(this);
-
     this.handleAccept = this.handleAccept.bind(this);
     this.save = this.save.bind(this);
   }
 
-  enableState(activeState) {
-    this.creationState = activeState;
-  }
-
   handleAccept(e) {
     e.preventDefault();
-    var nextState = "";
 
-    if (this.creationState == "roll" &&
-        this.props.character.attributes.tiedTopScore) {
-      this.creationState = "class";
-    } else {
-      nextState = this.creationStates[this.creationState];
-    }
+    console.log("It was " + nextState);
+    const nextState = this.creationStates[this.state.creationState];
+    console.log("Now is " + nextState);
 
-    this.enableState(nextState);
+    this.setState({creationState: nextState});
   }
 
   handleAttributeRoll(e)  {
@@ -64,7 +52,6 @@ class CharacterCreator extends React.Component{
   handleClass(e)  {
     e.preventDefault();
 
-    console.log("It is handling class");
     var character = this.props.character;
     character.class = e.target.value;
 
@@ -118,14 +105,11 @@ class CharacterCreator extends React.Component{
     this.props.onCharacterUpdate(character);
   }
 
-
-  render() {
-    return(
-      <div className="character-creator">
-        <div className= "form" >
-
-          <div id="alignment">
-          <h2>1. Pick Alignment</h2>
+  showCreationState() {
+    switch(this.state.creationState) {
+      case 'alignment':
+        return <div id="alignment">
+          <h2>Pick Alignment</h2>
             <select id="select-alignment" 
                     defaultValue={""}
                     onChange={this.handleAlignment}>
@@ -136,52 +120,67 @@ class CharacterCreator extends React.Component{
             </select>
 
             <button onClick={this.handleAccept} >Accept</button>
-          </div>
-
-          <div id="roll">
+          </div>;
+        break;
+      case 'roll':
+          return <div id="roll">
             <h2>2. Roll a character</h2>
             <button onClick={this.handleAttributeRoll} >Roll Attributes</button>
             <button onClick={this.handleAccept} >Accept</button>
           </div>
-
-          <div id="class">
+        break;
+      case 'class':
+        return <div id="class">
             <SelectClass 
               classes={this.props.character.availableClasses}
               onChange={this.handleClass} />
 
               <button onClick={this.handleAccept} >Accept</button>
-          </div>
-
-          <div id="race">
+          </div>;
+        break;
+      case 'race':
+        return <div id="race">
             <SelectRace 
               races={this.props.character.availableRaces}
               onChange={this.handleRace}
             />
            <button onClick={this.handleAccept} >Accept</button>
-          </div>
-
-          <div id="money">
+          </div>;
+        break;
+      case 'money':
+        return 
+        <div id="money">
             <h2>Roll for wealth</h2>
             <button onClick={this.handleGoldRoll} >Roll for Gold</button>
             <button onClick={this.handleAccept} >Accept</button>
-          </div>
-
-
-          <div id="name">
+          </div>;
+        break;
+      case 'name':
+        return <div id="name">
             <h2>Name them!</h2>
             <input type="text" name="name" 
                    placeholder='name'
                    onChange={this.handleName}></input>
             <button onClick={this.handleAccept} >Accept</button>
-          </div>
+          </div>;
+        break;
 
-
-          <div id="done">
+      case 'done':
+        return <div id="done">
             <h2>6. Save Character</h2>
             <button onClick={this.save} >Save</button>
-          </div>
+          </div>;
+        break;
+      default:
+        break;
+    }
+  }
 
-
+  render() {
+    return(
+      <div className="character-creator">
+        <div className= "form" >
+          {this.showCreationState()}
         </div>
       </div>
     ); 
