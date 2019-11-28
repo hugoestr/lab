@@ -1,5 +1,5 @@
 import React from 'react';
-
+import SelectClass from "./SelectClass.jsx";
 
 //import Button from '@material-ui/core/Button';
 
@@ -8,9 +8,9 @@ class CharacterCreator extends React.Component{
   constructor(props) {
     super(props);
     this.creationStates = {
-      'roll' : 'alignment',
-      'class' : 'alignment',
-      'alignment' : 'money',
+      'alignment' : 'roll',
+      'roll' : 'class',
+      'class' : 'money',
       'money' : 'race',
       'race' : 'name',
       'name' : 'done',
@@ -18,7 +18,7 @@ class CharacterCreator extends React.Component{
 
     this.creationState =  'roll';
 
-    this.enableState('roll');
+    this.enableState('alignment');
 
     this.handleAttributeRoll = this.handleAttributeRoll.bind(this);
     this.handleClass = this.handleClass.bind(this);
@@ -26,6 +26,8 @@ class CharacterCreator extends React.Component{
     this.handleGoldRoll = this.handleGoldRoll.bind(this);
     this.handleRace = this.handleRace.bind(this);
     this.handleName = this.handleName.bind(this);
+    
+    this.enableState = this.enableState.bind(this);
 
     this.handleAccept = this.handleAccept.bind(this);
     this.save = this.save.bind(this);
@@ -40,16 +42,13 @@ class CharacterCreator extends React.Component{
     var nextState = "";
 
     if (this.creationState == "roll" &&
-        this.state.character.attributes.tiedTopScore) {
+        this.props.character.attributes.tiedTopScore) {
       this.creationState = "class";
     } else {
-      nextState = this.creationStates[this.state.creationState];
+      nextState = this.creationStates[this.creationState];
     }
 
-    this.enableStep(nextState);
-
-    this.props.onCharacterUpdate(character);
-    this.setState({creationState: character});
+    this.enableState(nextState);
   }
 
   handleAttributeRoll(e)  {
@@ -121,23 +120,10 @@ class CharacterCreator extends React.Component{
   render() {
     return(
       <div className="character-creator">
-
-        <h1>Roll Attributes</h1> 
         <div className= "form" >
-          <div id="roll">
-            <input type="text" name="name" ></input>
-            <h2>1. Roll a character</h2>
-            <button onClick={this.handleAttributeRoll} >Roll Attributes</button>
-            <button onClick={this.handleAccept} >Accept</button>
-          </div>
-
-        <div id="class">
-            <h2>1.5 Select class!</h2>
-            <button onClick={this.handleAccept} >Accept</button>
-          </div>
 
           <div id="alignment">
-          <h2>2. Pick Alignment</h2>
+          <h2>1. Pick Alignment</h2>
             <select id="select-alignment" 
                     defaultValue={""}
                     onChange={this.handleAlignment}>
@@ -148,6 +134,20 @@ class CharacterCreator extends React.Component{
             </select>
 
             <button onClick={this.handleAccept} >Accept</button>
+          </div>
+
+          <div id="roll">
+            <h2>2. Roll a character</h2>
+            <button onClick={this.handleAttributeRoll} >Roll Attributes</button>
+            <button onClick={this.handleAccept} >Accept</button>
+          </div>
+
+          <div id="class">
+            <SelectClass 
+              classes={this.props.character.availableClasses}
+              onChange={this.handleClass} />
+
+              <button onClick={this.handleAccept} >Accept</button>
           </div>
 
           <div id="money">

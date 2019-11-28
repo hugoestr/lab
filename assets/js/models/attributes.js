@@ -32,7 +32,11 @@ class Attributes {
   }
 
   get keyAttributes() {
-    const classDefining = ["intelligence", "wisdom", "strength", "dexterity"];
+    const classDefining = [
+      "intelligence", 
+      "wisdom", 
+      "strength", 
+      "dexterity"];
 
     return this.
             sortedByScore.
@@ -45,6 +49,10 @@ class Attributes {
     return this.
             keyAttributes.
             filter(item => item.value == score);
+  }
+
+  get acceptableClasses() {
+
   }
 }
 
