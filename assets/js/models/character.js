@@ -17,8 +17,12 @@ class Character {
 
     this.gold = 0;
 
+    this.spells = [];
+    this.equipment = [];
+    this.magicItems = [];
+
     this.attributes = new Attributes();
-    this.topAttributes = [];;
+    this.topAttributes = [];
 
     this.dice = new Dice();
   }
@@ -89,6 +93,52 @@ class Character {
     }
 
     return characterClasses;
+  }
+
+  toJSON() {
+    const toSerialize = {
+      'name': this.name,
+      'class': this.class,
+      'race':  this.race,
+
+      'level':  this.level,
+      'hp': this.hp,
+      'xp': this.xp,
+      'ac':  this.ac,
+
+      'gold':  this.gold,
+
+      'attributes':  this.attributes.toJSON(),
+      'equipment':  this.equipment,
+      'spells':  this.spells,
+      'magicItems':  this.magicItems
+    }
+    
+    return JSON.stringify(toSerialize);
+  }
+
+  loadFromString(fromString) {
+    const values = JSON.parse(JSON.parse(fromString));
+
+    this.name = values['name'];
+    this.class = values['class'];
+    this.race = values['race'];
+
+    this.level = values['level'];
+    this.hp = values['hp'];
+    this.xp = values['xp'];
+    this.ac = values['ac'];
+
+    this.gold = values['gold'];
+
+    console.log("check here");
+    var attr = new Attributes();
+    attr.loadFromString(values['attributes']);
+    this.attributes = attr;
+
+    this.equipment = values['equipment'];
+    this.spells = values['spells'];
+    this.magicItems = values['magicItems'];
   }
 }
 

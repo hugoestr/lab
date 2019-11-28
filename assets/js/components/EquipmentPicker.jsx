@@ -5,7 +5,6 @@ class EquipmentPicker extends React.Component {
     return(
       <div className="equipment">
         <p>Money</p>
-        <p>race radio button</p>
       </div>
     );
   }

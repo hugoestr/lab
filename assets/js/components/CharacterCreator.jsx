@@ -29,7 +29,6 @@ class CharacterCreator extends React.Component{
     this.handleName = this.handleName.bind(this);
     
     this.handleAccept = this.handleAccept.bind(this);
-    this.save = this.save.bind(this);
   }
 
   handleAccept(e) {
@@ -106,16 +105,6 @@ class CharacterCreator extends React.Component{
     this.props.onCharacterUpdate(character);
   }
 
-  save(e)  {
-    e.preventDefault();
-
-    var character = this.props.character;
-    character.created  = true;
-
-    console.log("saving here");
-    this.props.onCharacterUpdate(character);
-  }
-
   showCreationState() {
     switch(this.state.creationState) {
       case 'alignment':
@@ -186,7 +175,7 @@ class CharacterCreator extends React.Component{
       case 'done':
         return <div id="done">
             <h2>6. Save Character</h2>
-            <button onClick={this.save} >Save</button>
+            <button onClick={this.props.onCharacterSave} >Save</button>
           </div>;
         break;
     }
