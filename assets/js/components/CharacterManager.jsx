@@ -2,7 +2,7 @@ import React from 'react';
 import EquipmentPicker from './EquipmentPicker.jsx';
 
 class CharacterManager extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
   }
 

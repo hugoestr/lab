@@ -11,29 +11,30 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
+    var character, hasCharacter;
 
-    this.state = {character: new Character() }
+    [character, hasCharacter] = this.retrieveCharacter(); 
 
-    this.retrieveCharacter();
+    this.state = {character: character,
+                  hasCharacter: hasCharacter };
 
     this.handleCharacterUpdate = this.handleCharacterUpdate.bind(this);
     this.handleCharacterSave = this.handleCharacterSave.bind(this);
   }
 
   retrieveCharacter() {
-    var result = new Character();
-
-    this.hasCharacter = false;
+    var character = new Character();
+    var hasCharacter = false;
 
     const monster = new CookieMonster();
     const serialized  = monster.meGetCookie("dnd-character");
 
     if (serialized != undefined) {
-      var result =  result.loadFromString(serialized); 
-      this.hasCharacter = true;
+      character.loadFromString(serialized); 
+      hasCharacter = true;
     }
 
-    this.setState({character: result});
+    return [character, hasCharacter];
   }
 
   handleCharacterUpdate(data) {
@@ -54,6 +55,7 @@ class Main extends React.Component {
 
   render() {
     const hasCharacter = this.state.hasCharacter;
+    console.log("here we go");
 
     return(
       <div id='name'>

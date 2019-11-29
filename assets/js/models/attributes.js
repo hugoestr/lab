@@ -77,7 +77,7 @@ class Attributes {
     this.strength = values['strength'];
     this.constitution = values['constitution'];
     this.intelligence = values['intelligence'];
-    this.wisdom = values['wisdom`'];
+    this.wisdom = values['wisdom'];
     this.dexterity = values['dexterity'];
     this.charisma = values['charisma'];
   }
