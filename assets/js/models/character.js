@@ -17,6 +17,7 @@ class Character {
 
     this.gold = 0;
 
+    this.languages = ['common'];
     this.spells = [];
     this.equipment = [];
     this.magicItems = [];
@@ -118,7 +119,7 @@ class Character {
   }
 
   loadFromString(fromString) {
-    const values = JSON.parse(JSON.parse(fromString));
+    const values = JSON.parse(fromString);
 
     this.name = values['name'];
     this.class = values['class'];

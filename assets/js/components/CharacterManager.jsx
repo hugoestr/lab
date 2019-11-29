@@ -9,8 +9,7 @@ class CharacterManager extends React.Component {
   render() {
     return(
       <div id="character-manager">
-        <p>Character Manager here </p> 
-        <EquipmentPicker />
+        <button onClick={this.props.onCharacterDestroy} >Destroy character</button>
       </div>
     );
   }

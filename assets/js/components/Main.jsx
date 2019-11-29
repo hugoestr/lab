@@ -20,6 +20,7 @@ class Main extends React.Component {
 
     this.handleCharacterUpdate = this.handleCharacterUpdate.bind(this);
     this.handleCharacterSave = this.handleCharacterSave.bind(this);
+    this.handleCharacterDestroy = this.handleCharacterDestroy.bind(this);
   }
 
   retrieveCharacter() {
@@ -42,15 +43,22 @@ class Main extends React.Component {
   }
 
   handleCharacterSave() {
-    const monster = new CookieMonster();
-
     var character = this.state.character;
     character.created  = true;
-    this.hasCharacter = true;
 
+    const monster = new CookieMonster();
     monster.meSaveCookie("dnd-character", character.toJSON(), {'years' : 20});
 
-    this.handleCharacterUpdate(character);
+    this.setState({character: character, hasCharacter: true});
+  }
+
+  handleCharacterDestroy() {
+    var character = new Character();
+
+    const monster = new CookieMonster();
+    monster.meEatCookie("dnd-character");
+
+    this.setState({character: character, hasCharacter: false});
   }
 
   render() {
@@ -64,7 +72,8 @@ class Main extends React.Component {
           <CharacterManager 
             character={this.state.character}
             onCharacterUpdate={this.handleCharacterUpdate}
-            onCharacterSave={this.handleCharacterSave} />
+            onCharacterSave={this.handleCharacterSave}
+            onCharacterDestroy={this.handleCharacterDestroy} />
         ) : (
           <CharacterCreator character={this.state.character} 
             onCharacterUpdate={this.handleCharacterUpdate}
@@ -72,6 +81,8 @@ class Main extends React.Component {
         )}
 
         <Attributes character={this.state.character} />
+
+        <a href="http://tametick.com/dnd/#Character%20Creation">Read details in the rules</a>
       </div>
     );
   }

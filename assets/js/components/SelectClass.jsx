@@ -23,15 +23,11 @@ function createOptions(items){
 
 function SelectClass(props) {
   return (
-    <div>
-      <h2>Select Class</h2>
       <select id="select-class" 
         defaultValue={''}
         onChange={props.onChange} >
         {createOptions(props.classes)} 
       </select>
-      
-    </div>
   );
 }
 

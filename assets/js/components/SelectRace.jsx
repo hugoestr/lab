@@ -19,13 +19,9 @@ function createOptions(items){
 
 function SelectRace(props){
   return (
-    <div>
-      <h2>Select Race</h2>
       <select id="select-race" onChange={props.onChange} >
         {createOptions(props.races)} 
       </select>
-      
-    </div>
   );
 }
 

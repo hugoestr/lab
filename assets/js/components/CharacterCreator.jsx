@@ -1,6 +1,8 @@
 import React from 'react';
-import SelectClass from "./SelectClass.jsx";
-import SelectRace  from "./SelectRace.jsx";
+import SelectClass   from "./SelectClass.jsx";
+import SelectRace    from "./SelectRace.jsx";
+import DropDownList  from "./DropDownList.jsx";
+import Step from "./Step.jsx";
 
 //import Button from '@material-ui/core/Button';
 
@@ -14,11 +16,24 @@ class CharacterCreator extends React.Component{
       'class' : 'health',
       'health' : 'race',
       'race' : 'money',
-      'money' : 'name',
+      'money' : 'spells',
+      'spells': 'name',
       'name' : 'done',
     };
 
-    this.state = {creationState: 'alignment'};
+    this.spells = [
+      'Charm person',
+      'Detect magic',
+      'Hold portal',
+      'Light',
+      'Protection from evil',
+      'Read languages',
+      'Read magic',
+      'Sleep' ];
+
+    this.state = {creationState: 'alignment',
+                  message: "",
+                  buttonDisabled: false};
 
     this.handleAttributeRoll = this.handleAttributeRoll.bind(this);
     this.handleClass = this.handleClass.bind(this);
@@ -27,18 +42,23 @@ class CharacterCreator extends React.Component{
     this.handleHealthRoll = this.handleHealthRoll.bind(this);
     this.handleRace = this.handleRace.bind(this);
     this.handleName = this.handleName.bind(this);
-    
+    this.handleSpells = this.handleSpells.bind(this);
+
     this.handleAccept = this.handleAccept.bind(this);
   }
 
   handleAccept(e) {
     e.preventDefault();
 
-    console.log("It was " + nextState);
-    const nextState = this.creationStates[this.state.creationState];
-    console.log("Now is " + nextState);
+    var nextState = this.creationStates[this.state.creationState];
 
-    this.setState({creationState: nextState});
+    if (nextState == 'spells' && this.props.character.class != 'magic-user'){
+      nextState = this.creationStates[nextState];
+    }
+
+    this.setState({creationState: nextState, 
+                   buttonDisabled: false,
+                   message: ''});
   }
 
   handleAttributeRoll(e)  {
@@ -47,6 +67,8 @@ class CharacterCreator extends React.Component{
     var character = this.props.character;
     character.createRoll();
 
+    this.setState({buttonDisabled: true, 
+                   message: 'Abilities created. See below.'});
     this.props.onCharacterUpdate(character);
   }
  
@@ -75,6 +97,9 @@ class CharacterCreator extends React.Component{
     var character = this.props.character;
     character.goldRoll();
 
+    this.setState({buttonDisabled: true, 
+                   message: `You have ${character.gold} of gold!`});
+
     this.props.onCharacterUpdate(character);
   }
 
@@ -83,6 +108,9 @@ class CharacterCreator extends React.Component{
 
     var character = this.props.character;
     character.healthRoll();
+
+    this.setState({buttonDisabled: true, 
+                   message: `You have ${character.hp} health points!`});
 
     this.props.onCharacterUpdate(character);
   }
@@ -105,71 +133,120 @@ class CharacterCreator extends React.Component{
     this.props.onCharacterUpdate(character);
   }
 
+  handleSpells(e)  {
+    e.preventDefault();
+
+    var character = this.props.character;
+    character.spells.push(e.target.value);
+
+    this.props.onCharacterUpdate(character);
+  }
+
   showCreationState() {
     switch(this.state.creationState) {
       case 'alignment':
-        return <div id="alignment">
-          <h2>Pick Alignment</h2>
-            <select id="select-alignment" 
-                    defaultValue={""}
-                    onChange={this.handleAlignment}>
-              <option value="">Select Alignment</option>
-              <option value="law" >Law</option>
-              <option value="neutral" >Neutral</option>
-              <option value="chaos" >Chaos</option>
-            </select>
-
-            <button onClick={this.handleAccept} >Accept</button>
-          </div>;
+        return <Step  
+                stateName='alignment' 
+                title='Select Alignment'
+                message={this.state.message}
+                buttonLabel='Next'
+                onClick={this.handleAccept}  > 
+              <select id="select-alignment" 
+                        defaultValue={""}
+                        onChange={this.handleAlignment}>
+                  <option value="">Select Alignment</option>
+                  <option value="law" >Law</option>
+                  <option value="neutral" >Neutral</option>
+                  <option value="chaos" >Chaos</option>
+                </select>
+          </Step>;
         break;
       case 'roll':
-          return <div id="roll">
-            <h2>2. Roll a character</h2>
-            <button onClick={this.handleAttributeRoll} >Roll Attributes</button>
-            <button onClick={this.handleAccept} >Accept</button>
-          </div>
+          return  <Step  
+                stateName='roll' 
+                title='Roll Abilities'
+                message={this.state.message}
+                buttonLabel='Next'
+                onClick={this.handleAccept}  > 
+            <button onClick={this.handleAttributeRoll} 
+                    disabled={this.state.buttonDisabled} >Roll Attributes</button>
+          </Step>
         break;
       case 'class':
-        return <div id="class">
+        return  <Step  
+                stateName='class' 
+                title='Select Class'
+                message={this.state.message}
+                buttonLabel='Next'
+                onClick={this.handleAccept}  > 
             <SelectClass 
               classes={this.props.character.availableClasses}
               onChange={this.handleClass} />
-
-              <button onClick={this.handleAccept} >Accept</button>
-          </div>;
+          </Step>;
         break;
       case 'health':
-        return <div id="health">
-            <h2>Roll for health</h2>
-            <button onClick={this.handleHealthRoll} >Roll for Health Points</button>
-            <button onClick={this.handleAccept} >Accept</button>
-          </div>;
-
+        return  <Step  
+                stateName='health' 
+                title='Roll health'
+                message={this.state.message}
+                buttonLabel='Next'
+                onClick={this.handleAccept}  > 
+                  <button onClick={this.handleHealthRoll}         
+                          disabled={this.state.buttonDisabled} >
+                          Roll for Health Points
+                  </button>
+          </Step>;
         break;
       case 'race':
-        return <div id="race">
+        return  <Step  
+                stateName='race' 
+                title='Select race'
+                message={this.state.message}
+                buttonLabel='Next'
+                onClick={this.handleAccept}  > 
             <SelectRace 
               races={this.props.character.availableRaces}
-              onChange={this.handleRace}
-            />
-           <button onClick={this.handleAccept} >Accept</button>
-          </div>;
+              onChange={this.handleRace} />
+          </Step>;
         break;
       case 'money':
-        return <div id="money">
-            <h2>Roll for wealth</h2>
-            <button onClick={this.handleGoldRoll} >Roll for Gold</button>
-            <button onClick={this.handleAccept} >Accept</button>
-          </div>;
+        return  <Step  
+                stateName='money' 
+                title='Roll for Gold'
+                message={this.state.message}
+                buttonLabel='Next'
+                onClick={this.handleAccept}  > 
+            <button onClick={this.handleGoldRoll}         
+            disabled={this.state.buttonDisabled} >
+              Roll for Gold
+            </button>
+          </Step>;
         break;
+      case 'spells':
+        return  <Step  
+                stateName='spells' 
+                title='Pick a spell'
+                message={this.state.message}
+                buttonLabel='Next'
+                onClick={this.handleAccept}  > 
+                <DropDownList
+                  items={this.spells}
+                  onChange={this.handleSpells} 
+                /> 
+          </Step>;
+        break;
+
       case 'name':
-        return <div id="name">
-            <h2>Name them!</h2>
+        return  <Step  
+                stateName='name' 
+                title='Give a name'
+                message={this.state.message}
+                buttonLabel='Next'
+                onClick={this.handleAccept}  > 
             <input type="text" name="name" 
                    placeholder='name'
                    onChange={this.handleName}></input>
-            <button onClick={this.handleAccept} >Accept</button>
-          </div>;
+          </Step>;
         break;
 
       case 'done':
@@ -184,6 +261,7 @@ class CharacterCreator extends React.Component{
   render() {
     return(
       <div className="character-creator">
+        <h1>Create</h1>
         <div className= "form" >
           {this.showCreationState()}
         </div>

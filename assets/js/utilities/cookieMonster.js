@@ -36,6 +36,12 @@ class CookieMonster {
     document.cookie = chocolateCookie;
   }
 
+  meEatCookie(key) {
+    const chocolateCookie = `${key}=nomnomnom;expires=Thu, 01 Jan 1970 00:00:01 GM`;  
+
+    document.cookie = chocolateCookie;
+  }
+
   meGetCookie(key){
     var jar = {};
 
