@@ -89,7 +89,7 @@ class EquipmentPicker extends React.Component {
   }
 
   handleCheckout(){
-    this.props.onCheckout(this.basket, this.total);
+    this.props.onCheckout(this.state.basket, this.state.total);
   }
 
   render() {

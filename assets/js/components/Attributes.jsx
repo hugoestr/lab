@@ -54,7 +54,7 @@ function Equipment(props) {
     <div id="equipment">
       <h3>Equipment</h3>
       <ul>
-        {props.equipment.map(item => <li>item</li>)}
+        {props.equipment.map(item => <li key={`character_equipment_list_${item.name}`}>{item.name}, {item.type}</li>)}
       </ul>
     </div>
   );

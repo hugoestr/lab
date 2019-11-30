@@ -145,6 +145,24 @@ class CharacterCreator extends React.Component{
     this.props.onCharacterUpdate(character);
   }
 
+  updateArmor(character){
+    var armor = character.equipment.filter(item => item.type == 'armor');
+    const notBodyArmor = ['shield', 'helmet', 'barding'];
+    const bodyArmor = armor.filter(item => !notBodyArmor.includes(item.name));
+
+    if (bodyArmor.length > 0) {
+      character.ac = bodyArmor[0].ac; 
+    }
+
+    const shield = armor.find(item => item.name == 'shield');
+
+    if (shield) {
+      character.ac += (shield.acModifier || 0);
+    }
+
+    return character;
+  }
+
   handleCheckout(equipment, cost)  {
 
     var character = this.props.character;
@@ -152,7 +170,10 @@ class CharacterCreator extends React.Component{
     character.equipment = equipment;
     character.gold = character.gold - cost;
 
+    character = this.updateArmor(character);
+
     this.props.onCharacterUpdate(character);
+    this.handleAccept(new Event('click'));
   }
 
   showCreationState() {
