@@ -1,4 +1,5 @@
 import React from 'react';
+import EquipmentPicker   from "./EquipmentPicker.jsx";
 import SelectClass   from "./SelectClass.jsx";
 import SelectRace    from "./SelectRace.jsx";
 import DropDownList  from "./DropDownList.jsx";
@@ -254,7 +255,7 @@ class CharacterCreator extends React.Component{
                 buttonLabel='Next'
                 onClick={this.handleAccept}  > 
                 <EquipmentPicker
-                  gold={this.state.character.gold}
+                  gold={this.props.character.gold}
                   onCheckout={this.handleCheckout} 
                 /> 
           </Step>;

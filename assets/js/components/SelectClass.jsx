@@ -11,7 +11,7 @@ function createOptions(items){
   };
 
   result = items.map(item => { 
-    let classname = abilityclass[item];
+    let classname = abilityClass[item];
     return <option key={"select_class_" + classname} 
                    value={classname}>{classname}</option>;
   });
