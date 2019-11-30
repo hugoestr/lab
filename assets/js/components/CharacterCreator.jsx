@@ -148,6 +148,7 @@ class CharacterCreator extends React.Component{
   handleCheckout(equipment, cost)  {
 
     var character = this.props.character;
+  
     character.equipment = equipment;
     character.gold = character.gold - cost;
 
@@ -250,7 +251,7 @@ class CharacterCreator extends React.Component{
       case 'equipment':
         return  <Step  
                 stateName='equipment' 
-                title='Buy equipment!'
+                title='Buy!'
                 message={this.state.message}
                 buttonLabel='Next'
                 onClick={this.handleAccept}  > 

@@ -8,13 +8,13 @@ class Equipment {
   }
 
   load(stringFormat){
-    var values = stringFormat.split();
+    var values = stringFormat.split(',');
     
     this.name = values[0];
-    this.cost = values[1];
+    this.cost = parseInt(values[1]);
     this.type = values[2];
-    this.ac = values[3];
-    this.acModifier = values[4];
+    this.ac = parseInt(values[3]);
+    this.acModifier = parseInt(values[4]);
 
   }
 

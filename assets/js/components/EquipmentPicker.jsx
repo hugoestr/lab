@@ -8,41 +8,74 @@ class EquipmentPicker extends React.Component {
 
     this.equipment = this.loadEquipment();
     
-    this.state = {gold: props.gold,
+    this.state = {gold: this.props.gold,
                   basket: [],
                   total: 0};
+    
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
+    this.handleCheckout = this.handleCheckout.bind(this);
   } 
 
-  handleChange(e) {
+  handleAdd(e) {
     e.preventDefault();
-    var equipment = this.state.equipment; 
+
+    var basket = this.state.basket; 
     var subTotal = this.state.total; 
     var gold = this.state.gold; 
 
     var item = new Equipment();
     item.load(e.target.value);
-   
-    if (e.target.checked) {
-      equipment.push(item);
-      gold -= item.cost;
-      subTotal += item.cost;
-    } else {
-      equipment = equipment.filter(i => i !== item);
+    
+    basket.push(item);
+    gold -= item.cost;
+    subTotal += item.cost;
+
+    this.setState({basket: basket,
+                total: subTotal,
+                gold: gold});
+  }
+
+  handleRemove(e) {
+    e.preventDefault();
+
+    var basket = this.state.basket; 
+    var subTotal = this.state.total; 
+    var gold = this.state.gold; 
+
+    var item = new Equipment();
+    item.load(e.target.value);
+
+    var index = basket.findIndex(i => i.name == item.name);
+
+    console.log("index " + index);
+
+    if (index > -1) {
+      basket.splice(index, 1);
+
       gold += item.cost;
       subTotal -= item.cost;
     }
 
-    this.setSet(equipment: equipment,
+
+    this.setState({basket: basket,
                 total: subTotal,
-                gold: gold);
+                gold: gold});
   }
 
-  showEquipment(equipment){
+  showEquipment(equipment) {
    return equipment.map(item =>{
     return <tr key={`equipment_${item.type}_${item.name}`}> 
-       <td><input type="checkbox" 
-                  value={item.serialize()}
-                  onChange={this.handleChange} /></td>
+       <td><button onClick={this.handleAdd} 
+                   value={item.serialize()} >
+            add
+           </button>
+       </td>
+       <td><button onClick={this.handleRemove}  
+                value={item.serialize()} >
+              Remove
+            </button>
+       </td>
        <td>{item.name}</td>
        <td>{item.cost}</td>
        <td>{item.ac}</td>
@@ -51,15 +84,30 @@ class EquipmentPicker extends React.Component {
    });
   }
 
+  displayBasket(basket){
+    return basket.map(item => <li key={`basket_item_${item.name}`} >{item.name}, {item.type}</li>);
+  }
+
+  handleCheckout(){
+    this.props.onCheckout(this.basket, this.total);
+  }
+
   render() {
     return(
       <div className="equipment">
         <h2>The equipment store!</h2>
+        <button onClick={this.handleCheckout} >Checkout</button>
         <h3>Available gold: {this.state.gold - this.state.total}</h3>
         <h3>Total: {this.state.total}</h3>
+        <h3>Cart:</h3>
+        <ul>
+          {this.displayBasket(this.state.basket)}
+        </ul>
         <table>
           <thead>
             <tr>
+              <th></th>
+              <th></th>
               <th>name</th>
               <th>cost</th>
               <th>ac</th>
