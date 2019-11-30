@@ -17,7 +17,8 @@ class CharacterCreator extends React.Component{
       'health' : 'race',
       'race' : 'money',
       'money' : 'spells',
-      'spells': 'name',
+      'spells': 'equipment',
+      'equipment': 'name',
       'name' : 'done',
     };
 
@@ -43,6 +44,7 @@ class CharacterCreator extends React.Component{
     this.handleRace = this.handleRace.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleSpells = this.handleSpells.bind(this);
+    this.handleCheckout = this.handleCheckout.bind(this);
 
     this.handleAccept = this.handleAccept.bind(this);
   }
@@ -142,6 +144,15 @@ class CharacterCreator extends React.Component{
     this.props.onCharacterUpdate(character);
   }
 
+  handleCheckout(equipment, cost)  {
+
+    var character = this.props.character;
+    character.equipment = equipment;
+    character.gold = character.gold - cost;
+
+    this.props.onCharacterUpdate(character);
+  }
+
   showCreationState() {
     switch(this.state.creationState) {
       case 'alignment':
@@ -235,7 +246,19 @@ class CharacterCreator extends React.Component{
                 /> 
           </Step>;
         break;
-
+      case 'equipment':
+        return  <Step  
+                stateName='equipment' 
+                title='Buy equipment!'
+                message={this.state.message}
+                buttonLabel='Next'
+                onClick={this.handleAccept}  > 
+                <EquipmentPicker
+                  gold={this.state.character.gold}
+                  onCheckout={this.handleCheckout} 
+                /> 
+          </Step>;
+        break;
       case 'name':
         return  <Step  
                 stateName='name' 

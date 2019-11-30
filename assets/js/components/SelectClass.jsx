@@ -11,9 +11,9 @@ function createOptions(items){
   };
 
   result = items.map(item => { 
-    let className = abilityClass[item];
-    return <option key={"select_class_" + className} 
-                   value={className}>{className}</option>;
+    let classname = abilityclass[item];
+    return <option key={"select_class_" + classname} 
+                   value={classname}>{classname}</option>;
   });
 
   result.unshift(<option key="empty" value="">select one</option>);
